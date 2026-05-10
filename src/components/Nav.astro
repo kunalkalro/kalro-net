@@ -1,0 +1,174 @@
+---
+const links = [
+  { href: '/celebration', label: 'The Celebration' },
+  { href: '/guide',       label: 'Guide to India' },
+  { href: '/accommodation', label: 'Accommodation' },
+  { href: '/rsvp',        label: 'RSVP' },
+  { href: '/faq',         label: 'FAQ' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container nav-inner">
+    <a href="/" class="nav-logo" aria-label="Sheridan & Kunal — Home">
+      <span class="logo-mark">S&K</span>
+    </a>
+
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="nav-menu" class="nav-links" role="navigation" aria-label="Main navigation">
+      {links.map(link => (
+        <a
+          href={link.href}
+          class:list={['nav-link', { active: currentPath === link.href }]}
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--color-cream);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-brass) 25%, transparent);
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    padding-block: var(--space-sm);
+  }
+
+  .nav-logo {
+    flex-shrink: 0;
+  }
+
+  .logo-mark {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: var(--color-terracotta);
+  }
+
+  /* Desktop nav */
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .nav-link {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+    transition: color 0.2s;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--color-terracotta);
+  }
+
+  /* Hamburger button — hidden on desktop */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 2rem;
+    height: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+  }
+
+  .nav-toggle span {
+    display: block;
+    height: 1.5px;
+    background-color: var(--color-ink);
+    border-radius: 2px;
+    transition: transform 0.25s, opacity 0.25s;
+  }
+
+  /* Hamburger → X when open */
+  .nav-toggle[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+  }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .nav-toggle {
+      display: flex;
+    }
+
+    .nav-links {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      background-color: var(--color-cream);
+      border-bottom: 1px solid color-mix(in srgb, var(--color-brass) 25%, transparent);
+      padding: var(--space-xs) var(--space-md) var(--space-md);
+      /* Hidden by default */
+      display: none;
+    }
+
+    .nav-links.open {
+      display: flex;
+    }
+
+    .nav-link {
+      padding-block: 0.6rem;
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector('.nav-toggle') as HTMLButtonElement;
+  const menu   = document.querySelector('#nav-menu') as HTMLElement;
+
+  if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      menu.classList.toggle('open', !isOpen);
+    });
+
+    // Close menu on outside click
+    document.addEventListener('click', (e) => {
+      if (!toggle.contains(e.target as Node) && !menu.contains(e.target as Node)) {
+        toggle.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('open');
+      }
+    });
+  }
+</script>

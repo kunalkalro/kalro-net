@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EmailCapture from '../components/EmailCapture.astro';
+---
+
+<BaseLayout>
+  <div class="hero">
+    <div class="container">
+      <p class="tagline">We're getting married and we'd love for you to be there!</p>
+      <h1 class="names">Sheridan<br /><span class="amp">&amp;</span><br />Kunal</h1>      
+      <div class="details">
+        <span class="detail-item">December 10-18ish 2027</span>
+        <span class="detail-sep" aria-hidden="true">&middot;</span>
+        <span class="detail-item">India</span>
+      </div>
+      <p class="venue-note">Venue to be announced</p>
+    </div>
+  </div>
+
+  <div class="divider-wrapper">
+    <div class="container">
+      <hr class="brass-rule" />
+    </div>
+  </div>
+
+  <EmailCapture />
+</BaseLayout>
+
+<style>
+  /* ── Hero ─────────────────────────────────────────────────────────────────── */
+  .hero {
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-xl);
+    text-align: center;
+  }
+
+  .tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--color-ink-muted);
+    margin-bottom: var(--space-lg);
+  }
+
+  .names {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 14vw, 7rem);
+    font-weight: 400;
+    line-height: 1;
+    color: var(--color-ink);
+    letter-spacing: -0.01em;
+    margin-bottom: var(--space-lg);
+  }
+
+  .amp {
+    font-style: italic;
+    color: var(--color-terracotta);
+    font-size: 0.85em;
+  }
+
+  .details {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 3.5vw, 1.375rem);
+    color: var(--color-ink-muted);
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-xs);
+  }
+
+  .detail-sep {
+    color: var(--color-brass);
+  }
+
+  .venue-note {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--color-brass) 70%, transparent);
+    margin-top: var(--space-xs);
+  }
+
+  /* ── Divider ──────────────────────────────────────────────────────────────── */
+  .divider-wrapper {
+    padding-block: 0;
+  }
+
+  .brass-rule {
+    border: none;
+    border-top: 1px solid color-mix(in srgb, var(--color-brass) 35%, transparent);
+  }
+</style>
